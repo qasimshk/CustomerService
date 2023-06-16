@@ -1,5 +1,3 @@
-using System.Linq;
-
 namespace customer.api.Extensions;
 
 using System.Net;
@@ -14,7 +12,6 @@ using customer.core.Model;
 using customer.core.Model.Results;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.Options;
 using Middleware;
 
