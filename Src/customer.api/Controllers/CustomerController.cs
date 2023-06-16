@@ -37,7 +37,7 @@ public class CustomerController : ApiControllerBase
     {
         var result = await _customerService.GetCustomerByReferenceNumber(referenceNumber);
 
-        return result.IsSuccess ? Ok(result) : NotFound(result);
+        return result.IsSuccess ? Ok(result) : NotFound();
     }
 
     [HttpGet("search")]
@@ -96,6 +96,6 @@ public class CustomerController : ApiControllerBase
     {
         var result = await _customerService.DeleteCustomer(referenceNumber);
 
-        return result.IsSuccess ? NoContent() : NotFound(result);
+        return result.IsSuccess ? NoContent() : NotFound();
     }
 }
