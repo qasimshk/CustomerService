@@ -37,7 +37,7 @@ public class CustomerController : ApiControllerBase
     {
         var result = await _customerService.GetCustomerByReferenceNumber(referenceNumber);
 
-        return result.IsSuccess ? Ok(result) : NotFound(result.ErrorMessage);
+        return result.IsSuccess ? Ok(result) : NotFound(result);
     }
 
     [HttpGet("search")]
@@ -70,7 +70,7 @@ public class CustomerController : ApiControllerBase
 
         return result.IsSuccess ?
             CreatedAtRoute(nameof(GetCustomerByReferenceNumber), new { referenceNumber = model.ReferenceNumber }, result) :
-            BadRequest(result.ErrorMessages);
+            BadRequest(result);
     }
 
     [HttpPut("{referenceNumber}")]
@@ -83,7 +83,7 @@ public class CustomerController : ApiControllerBase
 
         return result.StatusCode switch
         {
-            HttpStatusCode.BadRequest => BadRequest(result.ErrorMessages),
+            HttpStatusCode.BadRequest => BadRequest(result),
             HttpStatusCode.NotFound => NotFound(),
             _ => NoContent()
         };
@@ -96,6 +96,6 @@ public class CustomerController : ApiControllerBase
     {
         var result = await _customerService.DeleteCustomer(referenceNumber);
 
-        return result.IsSuccess ? NoContent() : NotFound(result.ErrorMessages);
+        return result.IsSuccess ? NoContent() : NotFound(result);
     }
 }
