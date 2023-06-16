@@ -11,6 +11,7 @@ using customer.core.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
+[ApiController]
 [Route("api/customer")]
 public class CustomerController : ApiControllerBase
 {

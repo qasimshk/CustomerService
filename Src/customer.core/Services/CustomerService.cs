@@ -99,14 +99,14 @@ public class CustomerService : ICustomerService
                 existingCustomer!.LastName = model.LastName;
             }
 
-            if (model.Dob != DateTime.MinValue)
+            if (model.Dob != null && model.Dob != DateTime.MinValue)
             {
-                existingCustomer!.Dob = model.Dob;
+                existingCustomer!.Dob = (DateTimeOffset)model.Dob;
             }
 
             if (model.ContactNumber > 0)
             {
-                existingCustomer!.ContactNumber = model.ContactNumber;
+                existingCustomer!.ContactNumber = (long)model.ContactNumber;
             }
 
             _customerDbContext.Update(existingCustomer);
