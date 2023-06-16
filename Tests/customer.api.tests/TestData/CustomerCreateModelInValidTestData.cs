@@ -13,14 +13,14 @@ public class CustomerCreateModelInValidTestData : TheoryData<CustomerCreateModel
             LastName = "Will",
             ContactNumber = 123456789,
             Dob = DateTimeOffset.Now,
-            EmailAddress = "olesya.kiyak@example.com",
+            EmailAddress = "example_one@test.com",
             ReferenceNumber = Guid.NewGuid(),
             Address = new CustomerAddress
             {
                 Street = "test street",
                 City = "Test",
                 Country = "Test",
-                Nation = "England",
+                Nation = "Tokyo",
                 Postcode = "SE10 9QR"
             }
         });
@@ -32,7 +32,7 @@ public class CustomerCreateModelInValidTestData : TheoryData<CustomerCreateModel
             LastName = "Reilly",
             ContactNumber = 123456789,
             Dob = DateTimeOffset.Now,
-            EmailAddress = "example@test.com",
+            EmailAddress = "example_two@test.com",
             ReferenceNumber = Guid.NewGuid(),
             Address = new CustomerAddress
             {
