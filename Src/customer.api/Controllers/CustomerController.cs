@@ -63,7 +63,7 @@ public class CustomerController : ApiControllerBase
 
     [HttpPost]
     [ProducesResponseType((int)HttpStatusCode.Created)]
-    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType(typeof(Result), (int)HttpStatusCode.BadRequest)]
     public async Task<IActionResult> CreateCustomer([FromBody] CustomerCreateModel model)
     {
         var result = await _customerService.AddCustomer(model);
@@ -76,7 +76,7 @@ public class CustomerController : ApiControllerBase
     [HttpPut("{referenceNumber}")]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType(typeof(Result), (int)HttpStatusCode.BadRequest)]
     public async Task<IActionResult> UpdateCustomer([FromRoute] Guid referenceNumber, [FromBody] CustomerUpdateModel model)
     {
         var result = await _customerService.UpdateCustomer(model, referenceNumber);
