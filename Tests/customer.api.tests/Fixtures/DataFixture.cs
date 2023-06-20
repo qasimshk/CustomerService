@@ -1,98 +1,26 @@
-namespace customer.api;
+namespace customer.api.tests.Fixtures;
 
-using System.Reflection;
-using data.Context;
-using data.Entities;
-using Extensions;
-using Microsoft.EntityFrameworkCore;
-using Middleware;
+using Bogus;
+using customer.data.Entities;
 
-public class Program
+public static class DataFixture
 {
-    public static async Task Main(string[] args)
+    public static List<Customer> GetCustomerFaker(int numberOfRecords)
     {
-        var builder = WebApplication.CreateBuilder(args);
+        var fakeCustomer = new Faker<Customer>()
+            .RuleFor(c => c.Title, "Mr")
+            .RuleFor(c => c.FirstName, (faker, t) => faker.Name.FirstName())
+            .RuleFor(c => c.LastName, (faker, t) => faker.Name.LastName())
+            .RuleFor(c => c.ContactNumber, 123456789)
+            .RuleFor(c => c.Dob, (faker, t) => faker.Person.DateOfBirth)
+            .RuleFor(e => e.EmailAddress, (faker, t) => faker.Internet.Email(t.FirstName, t.LastName))
+            .RuleFor(c => c.ReferenceNumber, (_, _) => Guid.NewGuid())
+            .RuleFor(c => c.Address, (faker, t) => GetCustomerAddress(t).Generate(1).First());
 
-        // this will avoid the mistake of committing settings in origin
-        builder.Configuration.AddEnvironmentVariables()
-                     .AddUserSecrets(Assembly.GetExecutingAssembly(), true);
-
-        builder.Services
-            .AddDbContext<CustomerDbContext>(opt => opt.UseInMemoryDatabase("CustomerRecords"))
-            .AddServiceSettings(builder.Configuration)
-            .AddServiceDependencies()
-            .AddServiceHealthCheck();
-
-        var app = builder.Build();
-
-        // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-
-            ///Seeding in-memory database
-            using (var scope = app.Services.CreateScope())
-            {
-                var dbContext = scope.ServiceProvider.GetRequiredService<CustomerDbContext>();
-
-                await SeedingDatabase(dbContext!);
-            }
-        }
-
-        app.UseMiddleware<ExceptionHandlingMiddleware>();
-
-        app.UseHttpsRedirection();
-
-        app.UseAuthorization();
-
-        app.MapHealthChecks("/health");
-
-        app.MapControllers();
-
-        app.Run();
+        return fakeCustomer.Generate(numberOfRecords).ToList();
     }
 
-    # region Seeding database
-
-    private static async Task SeedingDatabase(CustomerDbContext customerDbContext)
-    {
-        if (!await customerDbContext.Customers.AnyAsync())
-        {
-            await customerDbContext.Customers.AddRangeAsync(GetCustomerSeedingData());
-        }
-
-        if (!await customerDbContext.Nations.AnyAsync())
-        {
-            await customerDbContext.Nations.AddRangeAsync(new List<Nation>
-            {
-                new Nation
-                {
-                    Id = 1,
-                    Name = "England"
-                },
-                new Nation
-                {
-                    Id = 2,
-                    Name = "Scotland"
-                },
-                new Nation
-                {
-                    Id = 3,
-                    Name = "Wales"
-                },
-                new Nation
-                {
-                    Id = 4,
-                    Name = "Northern Ireland"
-                }
-            });
-        }
-
-        await customerDbContext.SaveChangesAsync();
-    }
-
-    private static List<Customer> GetCustomerSeedingData() => new()
+    public static List<Customer> GetCustomerFixSeedingData() => new()
     {
         new Customer
         {
@@ -173,7 +101,7 @@ public class Program
             LastName = "Petersen",
             Dob = DateTime.Parse("1984-11-30"),
             ContactNumber = 01145634335,
-            EmailAddress = "mille.pedersen@example.com",
+            EmailAddress = "andrea.pedersen@example.com",
             ReferenceNumber = Guid.Parse("60ec1279-d5b2-41c8-8488-4825d509f8c2"),
             Address = new Address
             {
@@ -186,5 +114,11 @@ public class Program
         }
     };
 
-    #endregion
+    private static Faker<Address> GetCustomerAddress(Customer customer) => new Faker<Address>()
+        .RuleFor(x => x.Street, (faker, t) => faker.Address.StreetAddress())
+        .RuleFor(x => x.City, (faker, t) => faker.Address.City())
+        .RuleFor(x => x.Country, (faker, t) => faker.Address.Country())
+        .RuleFor(x => x.Nation, "England")
+        .RuleFor(x => x.Postcode, "WE2 8HD")
+        .RuleFor(x => x.Customer, customer);
 }

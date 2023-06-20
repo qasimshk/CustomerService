@@ -3,24 +3,29 @@ namespace customer.api.tests.Controllers;
 using System.Net;
 using System.Text;
 using System.Text.Json;
-using TestData;
 using core.Model;
 using core.Model.Requests;
 using core.Model.Responses;
 using core.Model.Results;
-using Microsoft.AspNetCore.Mvc.Testing;
+using customer.api.tests.Fixtures;
+using TestData;
 
-public class CustomerControllerTests
+public class CustomerControllerTests : IClassFixture<DockerContainerMsSqlFixture>
 {
     // https://www.youtube.com/watch?v=xs8gNQjCXw0
     // https://www.youtube.com/watch?v=Pk2d-qm5KwE&t=603s
+
     private readonly HttpClient _httpClient;
+
+    private readonly DockerContainerMsSqlFixture _factory;
+
     private readonly JsonSerializerOptions _jsonSerializerOptions;
 
-    public CustomerControllerTests()
+    public CustomerControllerTests(DockerContainerMsSqlFixture factory)
     {
-        var webAppFactory = new WebApplicationFactory<Program>();
-        _httpClient = webAppFactory.CreateDefaultClient();
+        _factory = factory;
+
+        _httpClient = _factory.CreateClient();
 
         _jsonSerializerOptions = new JsonSerializerOptions
         {
@@ -124,6 +129,38 @@ public class CustomerControllerTests
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task TestEntityValidation_WillValidateEntityTypeConfiguration_ReturnInternalServerError()
+    {
+        // Arrange
+        var request = new CustomerCreateModel
+        {
+            Title = "123456",
+            FirstName = "Abby",
+            LastName = "Will",
+            ContactNumber = 123456789,
+            Dob = DateTimeOffset.Now,
+            EmailAddress = $"{Guid.NewGuid()}@test.com",
+            ReferenceNumber = Guid.NewGuid(),
+            Address = new CustomerAddress
+            {
+                Street = "test street",
+                City = "Test",
+                Country = "Test",
+                Nation = "England",
+                Postcode = "SE10 9QR"
+            }
+        };
+
+        var serviceRequest = GetRequestToStringConstant(request);
+
+        // Act
+        var response = await _httpClient.PostAsync($"/api/customer", serviceRequest);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
     }
 
     [Theory]

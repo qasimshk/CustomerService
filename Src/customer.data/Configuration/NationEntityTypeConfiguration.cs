@@ -13,8 +13,12 @@ public class NationEntityTypeConfiguration : IEntityTypeConfiguration<Nation>
 
         builder.HasKey(c => c.Id);
 
+        builder.Property(c => c.Id)
+                .IsRequired()
+                .ValueGeneratedNever();
+
         builder.Property(c => c.Name)
                 .IsRequired()
-                .HasMaxLength(10);
+                .HasMaxLength(50);
     }
 }

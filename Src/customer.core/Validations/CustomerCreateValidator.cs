@@ -1,6 +1,5 @@
 namespace customer.core.Validations;
 
-using System.Globalization;
 using data.Context;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
@@ -48,7 +47,7 @@ public class CustomerCreateValidator : AbstractValidator<CustomerCreateModel>
             .NotEmpty()
             .EmailAddress()
             .MustAsync(async (emailAddress, cancellation) =>
-                !await _customerDbContext.Customers.AnyAsync(x => x.EmailAddress.ToLower(CultureInfo.CurrentCulture) == emailAddress.ToLower(CultureInfo.CurrentCulture), cancellationToken: cancellation))
+                !await _customerDbContext.Customers.AnyAsync(x => x.EmailAddress.ToLower() == emailAddress.ToLower(), cancellationToken: cancellation))
             .WithMessage(x => $"Email address '{x.EmailAddress}' already in use");
 
         RuleFor(x => x.Address).ChildRules(customerAddress =>
@@ -76,7 +75,7 @@ public class CustomerCreateValidator : AbstractValidator<CustomerCreateModel>
             .NotNull()
             .NotEmpty()
             .MustAsync(async (nation, cancellation) =>
-                await _customerDbContext.Nations.AnyAsync(x => x.Name.ToLower(CultureInfo.CurrentCulture) == nation.ToLower(CultureInfo.CurrentCulture), cancellationToken: cancellation))
+                await _customerDbContext.Nations.AnyAsync(x => x.Name.ToLower() == nation.ToLower(), cancellationToken: cancellation))
             .WithMessage(x => $"Invalid nation: {x.Nation}");
 
             customerAddress.RuleFor(x => x.Country)
