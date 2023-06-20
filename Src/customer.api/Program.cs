@@ -173,7 +173,7 @@ public class Program
             LastName = "Petersen",
             Dob = DateTime.Parse("1984-11-30"),
             ContactNumber = 01145634335,
-            EmailAddress = "mille.pedersen@example.com",
+            EmailAddress = "Andrea.pedersen@example.com",
             ReferenceNumber = Guid.Parse("60ec1279-d5b2-41c8-8488-4825d509f8c2"),
             Address = new Address
             {
