@@ -26,18 +26,15 @@ public class Program
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
+        app.UseSwagger();
+        app.UseSwaggerUI();
+
+        ///Seeding in-memory database
+        using (var scope = app.Services.CreateScope())
         {
-            app.UseSwagger();
-            app.UseSwaggerUI();
+            var dbContext = scope.ServiceProvider.GetRequiredService<CustomerDbContext>();
 
-            ///Seeding in-memory database
-            using (var scope = app.Services.CreateScope())
-            {
-                var dbContext = scope.ServiceProvider.GetRequiredService<CustomerDbContext>();
-
-                await SeedingDatabase(dbContext!);
-            }
+            await SeedingDatabase(dbContext!);
         }
 
         app.UseMiddleware<ExceptionHandlingMiddleware>();
