@@ -1,4 +1,4 @@
-[![Build Status](https://dev.azure.com/CematixSolutions/Artificial%20Intelligence/_apis/build/status/Customer%20Service%20CI)](https://dev.azure.com/CematixSolutions/Artificial%20Intelligence/_build/latest?definitionId=-1)
+[![Build status](https://dev.azure.com/CematixSolutions/Artificial%20Intelligence/_apis/build/status/Customer%20Service%20CI)](https://dev.azure.com/CematixSolutions/Artificial%20Intelligence/_build/latest?definitionId=41)
 
 # Getting Started
 1.	Import json file in postman folder into Postman.
