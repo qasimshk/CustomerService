@@ -5,4 +5,6 @@
 2.	Database is EF core in-memory
 3.  Database is already seeded and records can be viewed using HTTPGet methods
 
-### Demo URL: [Customer Service Api](https://qasimshk.bsite.net/swagger/index.html)
+### Demo URL: 
+FREEASPHOSTING.COM: [Customer Service Api](https://qasimshk.bsite.net/swagger/index.html)
+MONSTERASP.NET: [Customer Service Api](http://customersrv.runasp.net/swagger/index.html)
