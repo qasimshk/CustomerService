@@ -7,3 +7,5 @@
 
 ### Demo URL: 
 FREEASPHOSTING.COM: [Customer Service Api](https://qasimshk.bsite.net/swagger/index.html)
+
+<a href="https://buymeacoffee.com/cematix" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
