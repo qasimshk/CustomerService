@@ -6,6 +6,7 @@
 3.  Database is already seeded and records can be viewed using HTTPGet methods
 
 ### Demo URL: 
-[FREEASPHOSTING.COM](https://freeasphosting.net/): [Customer Service Api](http://qasimshk.bsite.net/swagger/index.html)
+Azure Cloud [Customer Service Api](https://websrv2-abfagaarhvhpexgw.eastus-01.azurewebsites.net/swagger/index.html)
+[FREEASPHOSTING.NET](https://freeasphosting.net/): [Customer Service Api](http://qasimshk.bsite.net/swagger/index.html)
 
 <a href="https://buymeacoffee.com/cematix" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
